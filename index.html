@@ -10,11 +10,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
 
 <style>
+  /* ---- Desktop overlay position knobs ---- */
   :root{
-    /* Desktop overlay position */
-    --note-left: 30%;
-    --note-top-1: 60%;
-    --note-top-2: 72%;
+    --desk-left: 30%;  /* move both lines left/right on desktop */
+    --desk-top1: 60%;  /* construction note vertical pos */
+    --desk-top2: 72%;  /* email vertical pos */
   }
 
   body {
@@ -35,7 +35,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: relative; /* for desktop overlay */
   }
 
   .frame img {
@@ -46,19 +46,13 @@
     animation: fadeIn 1s ease-out forwards;
   }
 
-  .overlay{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-  }
-
+  /* Fade-in */
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  /* ===== Mobile (original) text — unchanged ===== */
   .construction-note {
     font-family: "Oooh Baby", cursive;
     font-size: 1.1em;
@@ -82,17 +76,20 @@
   }
   .email-note:hover { text-decoration: underline; }
 
+  /* Gmail link versions */
   .gmail-web { display: inline; }
   .gmail-mobile { display: none; }
-
   @media (max-width: 600px) {
     .gmail-web { display: none; }
     .gmail-mobile { display: inline; }
   }
 
+  /* ===== Desktop overlay (separate elements) ===== */
+  .overlay { display: none; } /* hidden on mobile by default */
+
   @media (min-width: 900px){
     html, body{
-      height: 100vh;
+      height: 100vh;         /* no scroll */
       overflow: hidden;
     }
 
@@ -104,55 +101,88 @@
     .frame{
       max-width: min(72vw, 1280px);
       max-height: calc(100vh - 120px);
-      margin-top: 5vh;
+      margin-top: 5vh;       /* image sits higher */
     }
-
     .frame img{
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
 
+    /* Hide the mobile text on desktop */
+    .construction-note,
+    .email-note { display: none; }
+
+    /* Show and position the desktop overlay instead */
     .overlay{
+      display: block;
       position: absolute;
       inset: 0;
-      display: block;
-      pointer-events: none;
+      pointer-events: none; /* allow clicks through, except links below */
     }
-
-    .construction-note,
-    .email-note{
+    .overlay .note,
+    .overlay .email{
       position: absolute;
-      left: var(--note-left);
+      left: var(--desk-left);
       margin: 0;
       text-align: left;
+      font-family: "Oooh Baby", cursive;
+      color: #FFE9B3;
+      letter-spacing: 0.5px;
       text-shadow: 0 0 10px rgba(0,0,0,.35);
-      pointer-events: auto;
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out forwards;
     }
-
-    .construction-note{ top: var(--note-top-1); font-size: 1.05em; }
-    .email-note{        top: var(--note-top-2); font-size: 1.15em; }
+    .overlay .note{
+      top: var(--desk-top1);
+      font-size: 1.05em;
+      color: #FFE9B3;             /* amber */
+      animation-delay: .5s;
+    }
+    .overlay .email{
+      top: var(--desk-top2);
+      font-size: 1.15em;
+      color: #E1E9F4;             /* blue-gray */
+      animation-delay: 1s;
+      pointer-events: auto;       /* keep link clickable */
+      text-decoration: none;
+    }
+    .overlay .email:hover{ text-decoration: underline; }
   }
 </style>
+
 <body>
   <div class="frame">
     <img src="IMG_2457.jpeg" alt="Red studio reflected in water at night">
-    <div class="overlay">
-      <p class="construction-note">web / work site <br> under construction…</p>
 
-      <a class="email-note gmail-web"
-        href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
-        target="_blank" rel="noopener"
-        aria-label="Email hello at roundtop dot studio via Gmail web">
-        hello@roundtop.studio
-      </a>
+    <!-- DESKTOP-ONLY overlay (hidden on mobile) -->
+    <div class="overlay" aria-hidden="false">
+      <p class="note">web / work site <br> under construction…</p>
 
-      <a class="email-note gmail-mobile"
-        href="mailto:hello@roundtop.studio"
-        aria-label="Email hello at roundtop dot studio via your mail app">
+      <!-- Desktop uses Gmail web compose -->
+      <a class="email"
+         href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
+         target="_blank" rel="noopener"
+         aria-label="Email hello at roundtop dot studio via Gmail web">
         hello@roundtop.studio
       </a>
     </div>
   </div>
+
+  <!-- MOBILE VERSION (unchanged) -->
+  <p class="construction-note">web / work site <br> under construction…</p>
+
+  <a class="email-note gmail-web"
+     href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
+     target="_blank" rel="noopener"
+     aria-label="Email hello at roundtop dot studio via Gmail web">
+     hello@roundtop.studio
+  </a>
+
+  <a class="email-note gmail-mobile"
+     href="mailto:hello@roundtop.studio"
+     aria-label="Email hello at roundtop dot studio via your mail app">
+     hello@roundtop.studio
+  </a>
 </body>
 </html>
