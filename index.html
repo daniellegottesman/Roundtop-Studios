@@ -37,29 +37,50 @@
     text-align: center;
     letter-spacing: 0.5px;
   }
+
+  /* Email styling */
   .email-note {
     font-family: "Courier New", Courier, monospace;
-    font-size: 0.5em;          /* now same size as construction note */
-    color: #8d9c8f;            /* gray-green */
+    font-size: 0.6em;          /* your current size */
+    color: #9aa7b0;            /* grayish-blue */
     align-self: flex-start;    /* push to left */
     margin-left: 40px;         /* adjust to position */
     margin-top: 20px;
     text-decoration: none;
   }
-  .email-note:hover {
-    text-decoration: underline;
+  .email-note:hover { text-decoration: underline; }
+
+  /* Show Gmail web link by default; hide mobile mailto link */
+  .gmail-web { display: inline; }
+  .gmail-mobile { display: none; }
+
+  /* On small screens, prefer the device mail app (mailto) */
+  @media (max-width: 600px) {
+    .gmail-web { display: none; }
+    .gmail-mobile { display: inline; }
   }
 </style>
 <body>
   <div class="frame">
     <img src="IMG_2457.jpeg" alt="">
   </div>
-  <p class="construction-note">web / work site <br> under construction…</p>
-  <a class="email-note" href="mailto:hello@roundtop.studio">hello@roundtop.studio</a>
 
-<!--   <div class="frame"><img src="IMG_2535.jpeg" alt=""></div>
-  <div class="frame"><img src="IMG_2490.jpeg" alt=""></div>
-  <div class="frame"><img src="IMG_6079.jpeg" alt=""></div>
--->
+  <p class="construction-note">web / work site <br> under construction…</p>
+
+  <!-- Desktop/Large screens: open Gmail compose on the web -->
+  <a class="email-note gmail-web"
+     href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
+     target="_blank" rel="noopener"
+     aria-label="Email hello at roundtop dot studio via Gmail web">
+     hello@roundtop.studio
+  </a>
+
+  <!-- Mobile/Small screens: use device mail app (usually Gmail) -->
+  <a class="email-note gmail-mobile"
+     href="mailto:hello@roundtop.studio"
+     aria-label="Email hello at roundtop dot studio via your mail app">
+     hello@roundtop.studio
+  </a>
+
 </body>
 </html>
