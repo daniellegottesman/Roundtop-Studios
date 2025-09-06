@@ -14,12 +14,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;  /* reduced gap so text stays close but not touching */
+    gap: 15px;
   }
   .frame {
-    width: 100%;                 /* controls how wide the frame is */
-    aspect-ratio: 3 / 2;         /* fixed 3:2 shape */
-    background: #000;            /* black background for empty space */
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    background: #000;
     border: none;
     display: flex;
     align-items: center;
@@ -28,14 +28,26 @@
   .frame img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain;         /* fit inside without cropping */
+    object-fit: contain;
   }
   .construction-note {
     font-family: "Courier New", Courier, monospace;
     font-size: 0.5em;
-    color: #FFBF00;              /* amber color */
+    color: #FFBF00; /* amber */
     text-align: center;
     letter-spacing: 0.5px;
+  }
+  .email-note {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.5em;          /* now same size as construction note */
+    color: #7a897c;            /* gray-green */
+    align-self: flex-start;    /* push to left */
+    margin-left: 40px;         /* adjust to position */
+    margin-top: 20px;
+    text-decoration: none;
+  }
+  .email-note:hover {
+    text-decoration: underline;
   }
 </style>
 <body>
@@ -43,6 +55,7 @@
     <img src="IMG_2457.jpeg" alt="">
   </div>
   <p class="construction-note">web / work site <br> under construction…</p>
+  <a class="email-note" href="mailto:hello@roundtop.studio">hello@roundtop.studio</a>
 
 <!--   <div class="frame"><img src="IMG_2535.jpeg" alt=""></div>
   <div class="frame"><img src="IMG_2490.jpeg" alt=""></div>
