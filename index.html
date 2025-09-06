@@ -35,24 +35,37 @@
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
   }
+
+  /* Fade-in animation */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
   .construction-note {
     font-family: "Oooh Baby", cursive;
     font-size: 1.1em;
     color: #FFD890; /* amber */
     text-align: center;
     letter-spacing: 0.5px;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out 0.5s forwards;
   }
 
   /* Email styling */
   .email-note {
     font-family: "Oooh Baby", cursive;
-    font-size: 1.2em;          /* your current size */
+    font-size: 1.2em;
     color: #C7D4E5;            /* grayish-blue */
     align-self: flex-start;    /* push to left */
     margin-left: 40px;         /* adjust to position */
     margin-top: 20px;
     text-decoration: none;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out 1s forwards;
   }
   .email-note:hover { text-decoration: underline; }
 
@@ -81,7 +94,7 @@
      hello@roundtop.studio
   </a>
 
-  <!-- Mobile/Small screens: use device mail app (usually Gmail) -->
+  <!-- Mobile/Small screens: use device mail app (mailto) -->
   <a class="email-note gmail-mobile"
      href="mailto:hello@roundtop.studio"
      aria-label="Email hello at roundtop dot studio via your mail app">
