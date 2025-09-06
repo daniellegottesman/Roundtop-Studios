@@ -4,21 +4,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>RTS</title>
 
-<!-- Font -->
+<!-- Add the font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
 
 <style>
-  /* ---- Desktop overlay position knobs ---- */
-  :root{
-    --desk-left: 30%;  /* move both lines left/right on desktop */
-    --desk-top1: 60%;  /* construction note vertical pos */
-    --desk-top2: 72%;  /* email vertical pos */
-  }
-
   body {
-    margin: 0;
+    margin-top: 15%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
     background: #000;
     padding: 20px;
     display: flex;
@@ -26,7 +22,6 @@
     align-items: center;
     gap: 15px;
   }
-
   .frame {
     width: 100%;
     aspect-ratio: 3 / 2;
@@ -35,9 +30,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative; /* for desktop overlay */
   }
-
   .frame img {
     max-width: 100%;
     max-height: 100%;
@@ -46,29 +39,29 @@
     animation: fadeIn 1s ease-out forwards;
   }
 
-  /* Fade-in */
+  /* Fade-in animation */
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ===== Mobile (original) text — unchanged ===== */
   .construction-note {
     font-family: "Oooh Baby", cursive;
     font-size: 1.1em;
-    color: #FFE9B3;
+    color: #FFE9B3; /* amber */
     text-align: center;
     letter-spacing: 0.5px;
     opacity: 0;
     animation: fadeIn 0.8s ease-out 0.5s forwards;
   }
 
+  /* Email styling */
   .email-note {
     font-family: "Oooh Baby", cursive;
-    font-size: 1.2em;
-    color: #E1E9F4;
-    align-self: flex-start;
-    margin-left: 40px;
+    font-size: 1.2em;          /* your current size */
+    color: #E1E9F4;            /* grayish-blue */
+    align-self: flex-start;    /* push to left */
+    margin-left: 40px;         /* adjust to position */
     margin-top: 20px;
     text-decoration: none;
     opacity: 0;
@@ -76,102 +69,24 @@
   }
   .email-note:hover { text-decoration: underline; }
 
-  /* Gmail link versions */
+  /* Show Gmail web link by default; hide mobile mailto link */
   .gmail-web { display: inline; }
   .gmail-mobile { display: none; }
+
+  /* On small screens, prefer the device mail app (mailto) */
   @media (max-width: 600px) {
     .gmail-web { display: none; }
     .gmail-mobile { display: inline; }
   }
-
-  /* ===== Desktop overlay (separate elements) ===== */
-  .overlay { display: none; } /* hidden on mobile by default */
-
-  @media (min-width: 900px){
-    html, body{
-      height: 100vh;         /* no scroll */
-      overflow: hidden;
-    }
-
-    body{
-      padding: 24px 28px;
-      gap: 10px;
-    }
-
-    .frame{
-      max-width: min(72vw, 1280px);
-      max-height: calc(100vh - 120px);
-      margin-top: 5vh;       /* image sits higher */
-    }
-    .frame img{
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    /* Hide the mobile text on desktop */
-    .construction-note,
-    .email-note { display: none; }
-
-    /* Show and position the desktop overlay instead */
-    .overlay{
-      display: block;
-      position: absolute;
-      inset: 0;
-      pointer-events: none; /* allow clicks through, except links below */
-    }
-    .overlay .note,
-    .overlay .email{
-      position: absolute;
-      left: var(--desk-left);
-      margin: 0;
-      text-align: left;
-      font-family: "Oooh Baby", cursive;
-      color: #FFE9B3;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 10px rgba(0,0,0,.35);
-      opacity: 0;
-      animation: fadeIn 0.8s ease-out forwards;
-    }
-    .overlay .note{
-      top: var(--desk-top1);
-      font-size: 1.05em;
-      color: #FFE9B3;             /* amber */
-      animation-delay: .5s;
-    }
-    .overlay .email{
-      top: var(--desk-top2);
-      font-size: 1.15em;
-      color: #E1E9F4;             /* blue-gray */
-      animation-delay: 1s;
-      pointer-events: auto;       /* keep link clickable */
-      text-decoration: none;
-    }
-    .overlay .email:hover{ text-decoration: underline; }
-  }
 </style>
-
 <body>
   <div class="frame">
-    <img src="IMG_2457.jpeg" alt="Red studio reflected in water at night">
-
-    <!-- DESKTOP-ONLY overlay (hidden on mobile) -->
-    <div class="overlay" aria-hidden="false">
-      <p class="note">web / work site <br> under construction…</p>
-
-      <!-- Desktop uses Gmail web compose -->
-      <a class="email"
-         href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
-         target="_blank" rel="noopener"
-         aria-label="Email hello at roundtop dot studio via Gmail web">
-        hello@roundtop.studio
-      </a>
-    </div>
+    <img src="IMG_2457.jpeg" alt="">
   </div>
 
-  <!-- MOBILE VERSION (unchanged) -->
   <p class="construction-note">web / work site <br> under construction…</p>
 
+  <!-- Desktop/Large screens: open Gmail compose on the web -->
   <a class="email-note gmail-web"
      href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
      target="_blank" rel="noopener"
@@ -179,10 +94,12 @@
      hello@roundtop.studio
   </a>
 
+  <!-- Mobile/Small screens: use device mail app (mailto) -->
   <a class="email-note gmail-mobile"
      href="mailto:hello@roundtop.studio"
      aria-label="Email hello at roundtop dot studio via your mail app">
      hello@roundtop.studio
   </a>
+
 </body>
 </html>
