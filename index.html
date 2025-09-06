@@ -4,12 +4,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>RTS</title>
 
-<!-- Add the font -->
+<!-- Font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
 
 <style>
+  /* ---- Desktop overlay position knobs (desktop ONLY uses these) ---- */
+  :root{
+    --desk-left: 30%;  /* move both desktop lines left/right */
+    --desk-top1: 60%;  /* construction note vertical position */
+    --desk-top2: 72%;  /* email vertical position */
+  }
+
   body {
     margin-top: 15%;
     margin-left: 0;
@@ -22,8 +29,8 @@
     align-items: center;
     gap: 15px;
 
-    /* 👇 Nudge entire content left (applies everywhere) */
-    transform: translateX(-15px);
+    /* Keep your mobile/global nudge exactly as you liked it */
+    transform: translateX(-15px); /* adjust this if you changed it */
   }
 
   .frame {
@@ -34,6 +41,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative; /* for desktop overlay */
   }
 
   .frame img {
@@ -50,6 +58,7 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  /* ===== Your original MOBILE text — unchanged ===== */
   .construction-note {
     font-family: "Oooh Baby", cursive;
     font-size: 1.1em;
@@ -60,13 +69,12 @@
     animation: fadeIn 0.8s ease-out 0.5s forwards;
   }
 
-  /* Email styling */
   .email-note {
     font-family: "Oooh Baby", cursive;
     font-size: 1.2em;
-    color: #E1E9F4;            /* grayish-blue */
-    align-self: flex-start;
-    margin-left: 40px;
+    color: #E1E9F4;            /* blue-gray */
+    align-self: flex-start;    /* left on mobile */
+    margin-left: 40px;         /* your original offset */
     margin-top: 20px;
     text-decoration: none;
     opacity: 0;
@@ -74,22 +82,103 @@
   }
   .email-note:hover { text-decoration: underline; }
 
-  /* Show Gmail web link by default; hide mobile mailto link */
+  /* Gmail link versions */
   .gmail-web { display: inline; }
   .gmail-mobile { display: none; }
-
-  /* On small screens, prefer the device mail app (mailto) */
   @media (max-width: 600px) {
     .gmail-web { display: none; }
     .gmail-mobile { display: inline; }
+  }
+
+  /* ===== Desktop overlay (hidden by default; shown only on desktop) ===== */
+  .overlay-desktop { display: none; }
+
+  @media (min-width: 900px){
+    html, body{
+      height: 100vh;         /* no scroll */
+      overflow: hidden;
+    }
+
+    body{
+      padding: 24px 28px;
+      gap: 10px;
+    }
+
+    /* Image slightly higher and sized to avoid scrolling */
+    .frame{
+      max-width: min(72vw, 1280px);
+      max-height: calc(100vh - 120px);
+      margin-top: 5vh;
+    }
+    .frame img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Hide the mobile text ONLY on desktop */
+    .construction-note,
+    .email-note { display: none; }
+
+    /* Show the desktop overlay and position it over the image */
+    .overlay-desktop{
+      display: block;
+      position: absolute;
+      inset: 0;
+      pointer-events: none; /* clicks pass through, except our link below */
+    }
+
+    .overlay-desktop .note,
+    .overlay-desktop .email{
+      position: absolute;
+      left: var(--desk-left);
+      margin: 0;
+      text-align: left;
+      font-family: "Oooh Baby", cursive;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 10px rgba(0,0,0,.35); /* subtle halo for readability */
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    .overlay-desktop .note{
+      top: var(--desk-top1);
+      font-size: 1.05em;
+      color: #FFE9B3; /* amber */
+      animation-delay: .5s;
+    }
+
+    .overlay-desktop .email{
+      top: var(--desk-top2);
+      font-size: 1.15em;
+      color: #E1E9F4; /* blue-gray */
+      animation-delay: 1s;
+      pointer-events: auto;  /* keep link clickable */
+      text-decoration: none;
+    }
+    .overlay-desktop .email:hover{ text-decoration: underline; }
   }
 </style>
 
 <body>
   <div class="frame">
-    <img src="IMG_2457.jpeg" alt="">
+    <img src="IMG_2457.jpeg" alt="Red studio reflected in water at night">
+
+    <!-- DESKTOP-ONLY overlay (hidden on mobile) -->
+    <div class="overlay-desktop" aria-hidden="false">
+      <p class="note">web / work site <br> under construction…</p>
+
+      <!-- Desktop uses Gmail web compose -->
+      <a class="email"
+         href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
+         target="_blank" rel="noopener"
+         aria-label="Email hello at roundtop dot studio via Gmail web">
+        hello@roundtop.studio
+      </a>
+    </div>
   </div>
 
+  <!-- MOBILE VERSION (unchanged and still visible on phones) -->
   <p class="construction-note">web / work site <br> under construction…</p>
 
   <a class="email-note gmail-web"
