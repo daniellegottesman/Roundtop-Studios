@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title><3</title>
+<style>
+  body {
+    margin: 0;
+    background: #000;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  .frame {
+    width: 90%;                 /* controls how wide the frame is */
+    aspect-ratio: 3 / 2;        /* fixed 3:2 shape */
+    background: #000;           /* black background for empty space */
+    border: 4px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .frame img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;        /* fit inside without cropping */
+  }
+</style>
+<body>
+  <div class="frame"><img src="image1.jpg" alt=""></div>
+  <div class="frame"><img src="image2.jpg" alt=""></div>
+  <div class="frame"><img src="image3.jpg" alt=""></div>
+</body>
+</html>
