@@ -14,12 +14,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 15px;  /* reduced gap so text stays close but not touching */
   }
   .frame {
-    width: 90%;                 /* controls how wide the frame is */
-    aspect-ratio: 3 / 2;        /* fixed 3:2 shape */
-    background: #000;           /* black background for empty space */
+    width: 100%;                 /* controls how wide the frame is */
+    aspect-ratio: 3 / 2;         /* fixed 3:2 shape */
+    background: #000;            /* black background for empty space */
     border: none;
     display: flex;
     align-items: center;
@@ -28,14 +28,25 @@
   .frame img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain;        /* fit inside without cropping */
+    object-fit: contain;         /* fit inside without cropping */
+  }
+  .construction-note {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.2em;
+    color: #FFBF00;              /* amber color */
+    text-align: center;
+    letter-spacing: 0.5px;
   }
 </style>
 <body>
-  <div class="frame"><img src="IMG_2457.jpeg" alt=""></div>
+  <div class="frame">
+    <img src="IMG_2457.jpeg" alt="">
+  </div>
+  <p class="construction-note">web + work-site under construction…</p>
+
 <!--   <div class="frame"><img src="IMG_2535.jpeg" alt=""></div>
-  <div class="frame"><img src="IMG_2490.jpeg" alt=""></  <div class="frame"><img src="IMG_6079.jpeg" alt=""></div>
-div>
+  <div class="frame"><img src="IMG_2490.jpeg" alt=""></div>
+  <div class="frame"><img src="IMG_6079.jpeg" alt=""></div>
 -->
 </body>
 </html>
