@@ -21,7 +21,11 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
+
+    /* 👇 Nudge entire content left (applies everywhere) */
+    transform: translateX(-20px);
   }
+
   .frame {
     width: 100%;
     aspect-ratio: 3 / 2;
@@ -31,6 +35,7 @@
     align-items: center;
     justify-content: center;
   }
+
   .frame img {
     max-width: 100%;
     max-height: 100%;
@@ -58,10 +63,10 @@
   /* Email styling */
   .email-note {
     font-family: "Oooh Baby", cursive;
-    font-size: 1.2em;          /* your current size */
+    font-size: 1.2em;
     color: #E1E9F4;            /* grayish-blue */
-    align-self: flex-start;    /* push to left */
-    margin-left: 40px;         /* adjust to position */
+    align-self: flex-start;
+    margin-left: 40px;
     margin-top: 20px;
     text-decoration: none;
     opacity: 0;
@@ -79,6 +84,7 @@
     .gmail-mobile { display: inline; }
   }
 </style>
+
 <body>
   <div class="frame">
     <img src="IMG_2457.jpeg" alt="">
@@ -86,7 +92,6 @@
 
   <p class="construction-note">web / work site <br> under construction…</p>
 
-  <!-- Desktop/Large screens: open Gmail compose on the web -->
   <a class="email-note gmail-web"
      href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
      target="_blank" rel="noopener"
@@ -94,12 +99,10 @@
      hello@roundtop.studio
   </a>
 
-  <!-- Mobile/Small screens: use device mail app (mailto) -->
   <a class="email-note gmail-mobile"
      href="mailto:hello@roundtop.studio"
      aria-label="Email hello at roundtop dot studio via your mail app">
      hello@roundtop.studio
   </a>
-
 </body>
 </html>
