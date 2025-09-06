@@ -48,7 +48,7 @@
   .construction-note {
     font-family: "Oooh Baby", cursive;
     font-size: 1.1em;
-    color: #FFE9B3; /* amber */
+    color: #FFE9B3; /* bright amber */
     text-align: center;
     letter-spacing: 0.5px;
     opacity: 0;
@@ -59,7 +59,7 @@
   .email-note {
     font-family: "Oooh Baby", cursive;
     font-size: 1.2em;
-    color: #E1E9F4;            /* grayish-blue */
+    color: #E1E9F4;            /* bright blue-gray */
     align-self: flex-start;    /* push to left */
     margin-left: 40px;         /* adjust to position */
     margin-top: 20px;
@@ -78,10 +78,39 @@
     .gmail-web { display: none; }
     .gmail-mobile { display: inline; }
   }
+
+  /* --- Desktop layout tweaks only (leave mobile untouched) --- */
+  @media (min-width: 900px) {
+    body {
+      margin-top: 6%;                 /* sits higher than before */
+      gap: 18px;
+    }
+
+    /* Make the image smaller on large screens */
+    .frame {
+      max-width: min(64vw, 1100px);   /* scale with screen, cap at 1100px */
+    }
+    .frame img {
+      width: 100%;
+      height: auto;
+    }
+
+    /* Position both text lines between the two reflections */
+    .construction-note,
+    .email-note {
+      align-self: flex-start;                         /* left align on desktop */
+      margin-left: clamp(120px, 22vw, 360px);         /* nudges into the gap */
+      text-align: left;                               /* override center on desktop */
+    }
+
+    /* Keep text size modest on desktop */
+    .construction-note { font-size: 1.1em; }
+    .email-note       { font-size: 1.2em; }
+  }
 </style>
 <body>
   <div class="frame">
-    <img src="IMG_2457.jpeg" alt="">
+    <img src="IMG_2457.jpeg" alt="Red studio reflected in water at night">
   </div>
 
   <p class="construction-note">web / work site <br> under construction…</p>
@@ -94,7 +123,7 @@
      hello@roundtop.studio
   </a>
 
-  <!-- Mobile/Small screens: use device mail app (mailto) -->
+  <!-- Mobile/Small screens: use device mail app (usually Gmail) -->
   <a class="email-note gmail-mobile"
      href="mailto:hello@roundtop.studio"
      aria-label="Email hello at roundtop dot studio via your mail app">
