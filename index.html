@@ -10,13 +10,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
 
 <style>
-  /* ---- Desktop overlay knobs (desktop ONLY) ---- */
+  /* ---- Desktop overlay knobs (DESKTOP ONLY) ---- */
   :root{
-    --desk-left-email: 20%;   /* email pushed further left */
-    --desk-top-email:  80%;   /* slightly lower */
+    /* Email (blue line) — left & a touch lower */
+    --desk-left-email: 22%;
+    --desk-top-email:  86%;
 
-    --desk-left-note:  65%;   /* construction note pushed right */
-    --desk-top-note:   88%;   /* much lower into the dark gap */
+    /* Construction note (yellow line) — right & higher than before */
+    --desk-left-note:  56%;
+    --desk-top-note:   70%;
   }
 
   /* MOBILE / GLOBAL (unchanged) */
@@ -59,7 +61,7 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* MOBILE text — unchanged */
+  /* ===== MOBILE text — unchanged ===== */
   .construction-note {
     font-family: "Oooh Baby", cursive;
     font-size: 1.1em;
@@ -83,7 +85,6 @@
   }
   .email-note:hover { text-decoration: underline; }
 
-  /* Gmail variants */
   .gmail-web { display: inline; }
   .gmail-mobile { display: none; }
   @media (max-width: 600px) {
@@ -101,7 +102,7 @@
       overflow: hidden;                 /* no scroll on desktop */
     }
 
-    /* Less padding so the image sits higher & can be larger */
+    /* tighter padding so the image can be larger and higher */
     body{
       margin-top: 0;
       padding: 8px 24px;
@@ -110,17 +111,16 @@
 
     /* Larger image, anchored to top, never cropped */
     .frame{
-      width: min(96vw, 1700px);         /* larger */
-      height: calc(100vh - 16px);       /* fills almost full viewport */
-      margin-top: 0;                    /* pinned to top */
+      width: min(96vw, 1700px);
+      height: calc(100vh - 16px);
+      margin-top: 0;
       align-self: center;
     }
-
     .frame img{
       width: 100%;
       height: 100%;
-      object-fit: contain;              /* never crop */
-      object-position: top center;      /* anchor to top */
+      object-fit: contain;
+      object-position: top center;
     }
 
     /* Hide mobile text on desktop */
@@ -146,19 +146,19 @@
       animation: fadeIn 0.8s ease-out forwards;
     }
 
-    /* Email on LEFT, slightly lower */
+    /* Email — left & slightly lower (blue line) */
     .overlay-desktop .email{
       left: var(--desk-left-email);
       top:  var(--desk-top-email);
       font-size: 1.18em;
       color: #E1E9F4;
       animation-delay: 1s;
-      pointer-events: auto;
+      pointer-events: auto;  /* keep link clickable */
       text-decoration: none;
     }
     .overlay-desktop .email:hover{ text-decoration: underline; }
 
-    /* Construction note on RIGHT, much lower */
+    /* Construction note — right & higher (yellow line) */
     .overlay-desktop .note{
       left: var(--desk-left-note);
       top:  var(--desk-top-note);
