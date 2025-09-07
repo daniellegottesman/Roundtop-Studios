@@ -10,17 +10,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
 
 <style>
-  /* ---- Desktop overlay defaults (used unless a later breakpoint overrides) ---- */
+  /* ---- Desktop overlay knobs (desktop ONLY) ---- */
   :root{
     --desk-left1: 27%;  /* construction note (upper) */
-    --desk-left2: 37%;  /* email (lower) */
-    --desk-top1: 56%;
-    --desk-top2: 76%;
-    --desk-frame-w: 80vw;     /* overall image width on desktop */
-    --desk-frame-top: 1.5vh;  /* how high the image sits */
-    --desk-frame-hpad: 80px;  /* padding budget so it never scrolls */
+    --desk-left2: 38%;  /* email (lower) */
+    --desk-top1: 52%;   /* vertical positions relative to image box */
+    --desk-top2: 74%;
   }
 
+  /* MOBILE / GLOBAL (unchanged) */
   body {
     margin-top: 15%;
     margin-left: 0;
@@ -32,9 +30,7 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
-
-    /* keep your global nudge that fixed mobile */
-    transform: translateX(-15px);
+    transform: translateX(-15px); /* your chosen global nudge */
   }
 
   .frame {
@@ -62,7 +58,7 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ===== MOBILE text — unchanged ===== */
+  /* MOBILE text — unchanged */
   .construction-note {
     font-family: "Oooh Baby", cursive;
     font-size: 1.1em;
@@ -86,7 +82,7 @@
   }
   .email-note:hover { text-decoration: underline; }
 
-  /* Gmail link versions */
+  /* Gmail variants */
   .gmail-web { display: inline; }
   .gmail-mobile { display: none; }
   @media (max-width: 600px) {
@@ -97,37 +93,46 @@
   /* ===== Desktop overlay (hidden by default; shown only on desktop) ===== */
   .overlay-desktop { display: none; }
 
-  /* ---------- DESKTOP BASE (≥900px): no scroll, larger & higher image ---------- */
+  /* -------- DESKTOP ONLY (≥900px): top-anchored, full-height, no scroll -------- */
   @media (min-width: 900px){
     html, body{
-      height: 100vh;         /* no scroll */
-      overflow: hidden;
+      height: 100vh;
+      overflow: hidden;                 /* no scroll on desktop */
     }
+
+    /* tighten desktop padding and cancel the big mobile top margin */
     body{
-      padding: 24px 28px;
+      margin-top: 0;
+      padding: 16px 24px;
       gap: 10px;
     }
+
+    /* Use (viewport height - padding) as the frame height.
+       This guarantees the WHOLE image fits without cropping. */
     .frame{
-      max-width: min(var(--desk-frame-w), 1500px);
-      max-height: calc(100vh - var(--desk-frame-hpad));
-      margin-top: var(--desk-frame-top);
+      width: min(92vw, 1600px);         /* wide but not edge-to-edge */
+      height: calc(100vh - 32px);       /* 32px = 16px top + 16px bottom */
+      margin-top: 0;                    /* sit at the very top */
+      align-self: center;
     }
+
     .frame img{
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: contain;              /* never crop */
+      object-position: top center;      /* anchor image to the top */
     }
 
-    /* Hide the mobile text ONLY on desktop */
+    /* Hide the mobile text on desktop */
     .construction-note,
     .email-note { display: none; }
 
-    /* Desktop overlay over the image */
+    /* Desktop overlay text over the image */
     .overlay-desktop{
       display: block;
       position: absolute;
       inset: 0;
-      pointer-events: none; /* pass-through except our link below */
+      pointer-events: none;             /* pass-through except the link */
     }
     .overlay-desktop .note,
     .overlay-desktop .email{
@@ -144,73 +149,19 @@
       left: var(--desk-left1);
       top:  var(--desk-top1);
       font-size: 1.08em;
-      color: #FFE9B3; /* amber */
+      color: #FFE9B3;                   /* amber */
       animation-delay: .5s;
     }
     .overlay-desktop .email{
       left: var(--desk-left2);
       top:  var(--desk-top2);
       font-size: 1.18em;
-      color: #E1E9F4; /* blue-gray */
+      color: #E1E9F4;                   /* blue-gray */
       animation-delay: 1s;
-      pointer-events: auto;  /* keep link clickable */
+      pointer-events: auto;             /* keep link clickable */
       text-decoration: none;
     }
     .overlay-desktop .email:hover{ text-decoration: underline; }
-  }
-
-  /* ---------- AUTO-TUNING FOR COMMON DESKTOP WIDTHS ---------- */
-
-  /* ~1366px to <1440px */
-  @media (min-width: 1200px) and (max-width: 1439.98px){
-    :root{
-      --desk-left1: 27%;
-      --desk-left2: 36.5%;
-      --desk-top1: 58%;
-      --desk-top2: 77%;
-      --desk-frame-w: 82vw;     /* a bit larger */
-      --desk-frame-top: 1.2vh;  /* sit higher */
-      --desk-frame-hpad: 72px;  /* slightly tighter padding */
-    }
-  }
-
-  /* 1440px to <1920px (very common laptops) */
-  @media (min-width: 1440px) and (max-width: 1919.98px){
-    :root{
-      --desk-left1: 28%;
-      --desk-left2: 36%;
-      --desk-top1: 58%;
-      --desk-top2: 77%;
-      --desk-frame-w: 78vw;
-      --desk-frame-top: 1.2vh;
-      --desk-frame-hpad: 84px;
-    }
-  }
-
-  /* 1920px to <2560px */
-  @media (min-width: 1920px) and (max-width: 2559.98px){
-    :root{
-      --desk-left1: 29%;
-      --desk-left2: 35%;
-      --desk-top1: 60%;
-      --desk-top2: 78%;
-      --desk-frame-w: 70vw;
-      --desk-frame-top: 0.8vh;
-      --desk-frame-hpad: 96px;
-    }
-  }
-
-  /* ≥2560px (large retina/4K-ish widths) */
-  @media (min-width: 2560px){
-    :root{
-      --desk-left1: 31%;
-      --desk-left2: 35%;
-      --desk-top1: 61%;
-      --desk-top2: 79%;
-      --desk-frame-w: 64vw;
-      --desk-frame-top: 0.6vh;
-      --desk-frame-hpad: 110px;
-    }
   }
 </style>
 
@@ -221,8 +172,6 @@
     <!-- DESKTOP-ONLY overlay (hidden on mobile) -->
     <div class="overlay-desktop" aria-hidden="false">
       <p class="note">web / work site <br> under construction…</p>
-
-      <!-- Desktop uses Gmail web compose -->
       <a class="email"
          href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
          target="_blank" rel="noopener"
