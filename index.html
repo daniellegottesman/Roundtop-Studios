@@ -10,11 +10,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
 
 <style>
-  /* ---- Desktop overlay position knobs (desktop ONLY uses these) ---- */
+  /* ---- Desktop overlay defaults (used unless a later breakpoint overrides) ---- */
   :root{
-    --desk-left: 30%;  /* move both desktop lines left/right */
-    --desk-top1: 60%;  /* construction note vertical position */
-    --desk-top2: 72%;  /* email vertical position */
+    --desk-left1: 27%;  /* construction note (upper) */
+    --desk-left2: 37%;  /* email (lower) */
+    --desk-top1: 56%;
+    --desk-top2: 76%;
+    --desk-frame-w: 80vw;     /* overall image width on desktop */
+    --desk-frame-top: 1.5vh;  /* how high the image sits */
+    --desk-frame-hpad: 80px;  /* padding budget so it never scrolls */
   }
 
   body {
@@ -29,8 +33,8 @@
     align-items: center;
     gap: 15px;
 
-    /* Keep your mobile/global nudge exactly as you liked it */
-    transform: translateX(-15px); /* adjust this if you changed it */
+    /* keep your global nudge that fixed mobile */
+    transform: translateX(-15px);
   }
 
   .frame {
@@ -58,11 +62,11 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ===== Your original MOBILE text — unchanged ===== */
+  /* ===== MOBILE text — unchanged ===== */
   .construction-note {
     font-family: "Oooh Baby", cursive;
     font-size: 1.1em;
-    color: #FFE9B3; /* amber */
+    color: #FFE9B3;
     text-align: center;
     letter-spacing: 0.5px;
     opacity: 0;
@@ -72,9 +76,9 @@
   .email-note {
     font-family: "Oooh Baby", cursive;
     font-size: 1.2em;
-    color: #E1E9F4;            /* blue-gray */
-    align-self: flex-start;    /* left on mobile */
-    margin-left: 40px;         /* your original offset */
+    color: #E1E9F4;
+    align-self: flex-start;
+    margin-left: 40px;
     margin-top: 20px;
     text-decoration: none;
     opacity: 0;
@@ -93,22 +97,20 @@
   /* ===== Desktop overlay (hidden by default; shown only on desktop) ===== */
   .overlay-desktop { display: none; }
 
+  /* ---------- DESKTOP BASE (≥900px): no scroll, larger & higher image ---------- */
   @media (min-width: 900px){
     html, body{
       height: 100vh;         /* no scroll */
       overflow: hidden;
     }
-
     body{
       padding: 24px 28px;
       gap: 10px;
     }
-
-    /* Image slightly higher and sized to avoid scrolling */
     .frame{
-      max-width: min(72vw, 1280px);
-      max-height: calc(100vh - 120px);
-      margin-top: 5vh;
+      max-width: min(var(--desk-frame-w), 1500px);
+      max-height: calc(100vh - var(--desk-frame-hpad));
+      margin-top: var(--desk-frame-top);
     }
     .frame img{
       width: 100%;
@@ -120,43 +122,95 @@
     .construction-note,
     .email-note { display: none; }
 
-    /* Show the desktop overlay and position it over the image */
+    /* Desktop overlay over the image */
     .overlay-desktop{
       display: block;
       position: absolute;
       inset: 0;
-      pointer-events: none; /* clicks pass through, except our link below */
+      pointer-events: none; /* pass-through except our link below */
     }
-
     .overlay-desktop .note,
     .overlay-desktop .email{
       position: absolute;
-      left: var(--desk-left);
       margin: 0;
       text-align: left;
       font-family: "Oooh Baby", cursive;
       letter-spacing: 0.5px;
-      text-shadow: 0 0 10px rgba(0,0,0,.35); /* subtle halo for readability */
+      text-shadow: 0 0 10px rgba(0,0,0,.35);
       opacity: 0;
       animation: fadeIn 0.8s ease-out forwards;
     }
-
     .overlay-desktop .note{
-      top: var(--desk-top1);
-      font-size: 1.05em;
+      left: var(--desk-left1);
+      top:  var(--desk-top1);
+      font-size: 1.08em;
       color: #FFE9B3; /* amber */
       animation-delay: .5s;
     }
-
     .overlay-desktop .email{
-      top: var(--desk-top2);
-      font-size: 1.15em;
+      left: var(--desk-left2);
+      top:  var(--desk-top2);
+      font-size: 1.18em;
       color: #E1E9F4; /* blue-gray */
       animation-delay: 1s;
       pointer-events: auto;  /* keep link clickable */
       text-decoration: none;
     }
     .overlay-desktop .email:hover{ text-decoration: underline; }
+  }
+
+  /* ---------- AUTO-TUNING FOR COMMON DESKTOP WIDTHS ---------- */
+
+  /* ~1366px to <1440px */
+  @media (min-width: 1200px) and (max-width: 1439.98px){
+    :root{
+      --desk-left1: 27%;
+      --desk-left2: 36.5%;
+      --desk-top1: 58%;
+      --desk-top2: 77%;
+      --desk-frame-w: 82vw;     /* a bit larger */
+      --desk-frame-top: 1.2vh;  /* sit higher */
+      --desk-frame-hpad: 72px;  /* slightly tighter padding */
+    }
+  }
+
+  /* 1440px to <1920px (very common laptops) */
+  @media (min-width: 1440px) and (max-width: 1919.98px){
+    :root{
+      --desk-left1: 28%;
+      --desk-left2: 36%;
+      --desk-top1: 58%;
+      --desk-top2: 77%;
+      --desk-frame-w: 78vw;
+      --desk-frame-top: 1.2vh;
+      --desk-frame-hpad: 84px;
+    }
+  }
+
+  /* 1920px to <2560px */
+  @media (min-width: 1920px) and (max-width: 2559.98px){
+    :root{
+      --desk-left1: 29%;
+      --desk-left2: 35%;
+      --desk-top1: 60%;
+      --desk-top2: 78%;
+      --desk-frame-w: 70vw;
+      --desk-frame-top: 0.8vh;
+      --desk-frame-hpad: 96px;
+    }
+  }
+
+  /* ≥2560px (large retina/4K-ish widths) */
+  @media (min-width: 2560px){
+    :root{
+      --desk-left1: 31%;
+      --desk-left2: 35%;
+      --desk-top1: 61%;
+      --desk-top2: 79%;
+      --desk-frame-w: 64vw;
+      --desk-frame-top: 0.6vh;
+      --desk-frame-hpad: 110px;
+    }
   }
 </style>
 
