@@ -1,205 +1,582 @@
 <!doctype html>
 <html lang="en">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RTS</title>
+<title>ROUNDTOP — Germantown, NY</title>
+<meta name="description" content="An artist residency in Germantown, NY. Conceived by a sculptor and built from the ground up to support the needs of working artists.">
 
-<!-- Font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 
 <style>
-  /* ---- Desktop overlay knobs (DESKTOP ONLY) ---- */
-  :root{
-    /* Email (blue line) — left & a touch lower */
-    --desk-left-email: 30%;
-    --desk-top-email:  79%;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+  img { display: block; width: 100%; }
+  a { color: inherit; }
 
-    /* Construction note (yellow line) — right & higher than before */
-    --desk-left-note:  36%;
-    --desk-top-note:   64%;
+  .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .wordmark {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 9rem);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .body-text {
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    font-weight: 300;
+    line-height: 1.65;
+    max-width: 52ch;
+  }
+  .body-text strong { font-weight: 500; }
+  .page-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    opacity: 0.6;
   }
 
-  /* MOBILE / GLOBAL (unchanged) */
-  body {
-    margin-top: 15%;
-    margin-left: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    background: #000;
-    padding: 20px;
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 2.5rem;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 100%);
+  }
+  nav .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+  }
+  nav .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  nav .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: rgba(255,255,255,0.8);
+    transition: color 0.2s;
+  }
+  nav .nav-links a:hover { color: #fff; }
+
+  @media (max-width: 600px) {
+    nav { padding: 1.2rem 1.4rem; }
+    nav .nav-links { display: none; }
+  }
+
+  #hero {
+    position: relative;
+    height: 100vh;
+    min-height: 500px;
+    overflow: hidden;
+  }
+  #hero .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.72);
+  }
+  #hero .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.1) 0%,
+      rgba(0,0,0,0.15) 60%,
+      rgba(0,0,0,0.55) 100%
+    );
+  }
+  #hero .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+  }
+  #hero .geo-label {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 1.8rem;
+    left: 0; right: 0;
+    padding: 0 2.5rem;
+  }
+  #hero .wordmark {
+    text-shadow: 0 2px 40px rgba(0,0,0,0.4);
+    animation: fadeUp 1.1s ease both;
+  }
+  #hero .hero-sub {
+    margin-top: 1.4rem;
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    opacity: 0.88;
+    animation: fadeUp 1.1s ease 0.25s both;
+  }
+  #hero .scroll-hint {
+    position: absolute;
+    bottom: 2.2rem;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    transform: translateX(-15px); /* your chosen global nudge */
+    gap: 0.5rem;
+    opacity: 0.55;
+    animation: fadeUp 1s ease 1.2s both;
+  }
+  #hero .scroll-hint span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  #hero .scroll-hint .arrow {
+    width: 1px;
+    height: 36px;
+    background: #fff;
+    animation: arrowPulse 1.8s ease-in-out infinite;
   }
 
-  .frame {
-    width: 100%;
-    aspect-ratio: 3 / 2;
-    background: #000;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative; /* for desktop overlay */
-  }
-
-  .frame img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    opacity: 0;
-    animation: fadeIn 1s ease-out forwards;
-  }
-
-  /* Fade-in */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+  @keyframes arrowPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(1.15); }
+  }
 
-  /* ===== MOBILE text — unchanged ===== */
-  .construction-note {
-    font-family: "Oooh Baby", cursive;
-    font-size: 1.1em;
-    color: #FFE9B3;
+  section { position: relative; }
+
+  .photo-section {
+    height: clamp(480px, 70vh, 860px);
+    overflow: hidden;
+  }
+  .photo-section img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.78);
+  }
+  .photo-section .photo-caption {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 2.5rem;
+    right: 2.5rem;
+  }
+
+  .split-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: clamp(440px, 55vh, 700px);
+  }
+  .split-section.reverse { direction: rtl; }
+  .split-section.reverse > * { direction: ltr; }
+
+  .split-img { overflow: hidden; }
+  .split-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.82);
+    transition: transform 0.6s ease;
+  }
+  .split-img:hover img { transform: scale(1.03); }
+
+  .split-text {
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2.5rem, 6vw, 5rem);
+    gap: 1.4rem;
+  }
+
+  .dark-block {
+    background: #0f0f0f;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    letter-spacing: 0.5px;
-    opacity: 0;
-    animation: fadeIn 0.8s ease-out 0.5s forwards;
+    gap: 1.2rem;
   }
 
-  .email-note {
-    font-family: "Oooh Baby", cursive;
-    font-size: 1.2em;
-    color: #E1E9F4;
-    align-self: flex-start;
-    margin-left: 40px;
-    margin-top: 20px;
+  #compound .compound-header {
+    position: absolute;
+    top: 1.6rem;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 2.5rem;
+    z-index: 2;
+  }
+
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .feature-list li {
+    font-size: clamp(0.85rem, 1.6vw, 1rem);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    padding-left: 1.2em;
+    position: relative;
+    line-height: 1.45;
+  }
+  .feature-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    opacity: 0.45;
+  }
+
+  #location {
+    height: clamp(500px, 72vh, 900px);
+    overflow: hidden;
+    position: relative;
+  }
+  #location img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.55);
+  }
+  #location .location-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    gap: 1rem;
+  }
+  #location h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  #location .loc-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+    font-weight: 300;
+    opacity: 0.88;
+    line-height: 1.7;
+  }
+  #location .loc-orgs {
+    margin-top: 1.2rem;
+    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+    opacity: 0.7;
+    font-weight: 300;
+    max-width: 50ch;
+    line-height: 1.65;
+    font-style: italic;
+  }
+  .loc-divider {
+    width: 32px;
+    height: 1px;
+    background: rgba(255,255,255,0.4);
+    margin: 0.5rem auto;
+  }
+
+  #mission { background: #0d0d0d; }
+  .mission-hero {
+    position: relative;
+    height: clamp(520px,100vh,1000px);
+    overflow: hidden;
+  }
+  .mission-hero img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5);
+  }
+  .mission-hero .mission-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    gap: 1.4rem;
+  }
+  .mission-hero .mission-text p {
+    font-size: clamp(1rem, 2.2vw, 1.35rem);
+    font-weight: 300;
+    line-height: 1.65;
+    max-width: 52ch;
+  }
+  .mission-hero .mission-text strong {
+    font-weight: 600;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .fellowship-block {
+    background: #111;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .fellowship-block h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .fellowship-includes { margin-top: 2rem; }
+  .fellowship-includes .label {
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  #founder { position: relative; overflow: hidden; }
+  #founder .founder-img-wrap {
+    height: clamp(480px, 65vh, 860px);
+    position: relative;
+  }
+  #founder .founder-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: brightness(0.6);
+  }
+  #founder .founder-text {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: clamp(2rem, 5vw, 4rem);
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    max-width: 600px;
+  }
+
+  footer {
+    background: #080808;
+    padding: clamp(3.5rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  footer .footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  footer .footer-wordmark {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  footer .footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.6rem;
+    text-align: right;
+  }
+  footer a.email-link {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300;
+    letter-spacing: 0.04em;
     text-decoration: none;
-    opacity: 0;
-    animation: fadeIn 0.8s ease-out 1s forwards;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
   }
-  .email-note:hover { text-decoration: underline; }
+  footer a.email-link:hover { border-color: #fff; }
+  footer .credits {
+    font-size: 0.75rem;
+    opacity: 0.35;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
 
-  .gmail-web { display: inline; }
+  @media (max-width: 768px) {
+    .split-section { grid-template-columns: 1fr; }
+    .split-section.reverse { direction: ltr; }
+    .split-img { height: 280px; }
+    .split-text { padding: 2.5rem 1.5rem; }
+    .fellowship-block { grid-template-columns: 1fr; gap: 2.5rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+    footer .footer-right { align-items: flex-start; text-align: left; }
+    .photo-section .photo-caption { left: 1.4rem; right: 1.4rem; }
+    #hero .geo-label { padding: 0 1.4rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { transition: none; }
+    *, *::before, *::after { animation: none !important; }
+  }
+
+  .gmail-web  { display: inline; }
   .gmail-mobile { display: none; }
   @media (max-width: 600px) {
-    .gmail-web { display: none; }
+    .gmail-web  { display: none; }
     .gmail-mobile { display: inline; }
   }
-
-  /* ===== Desktop overlay (hidden by default; shown only on desktop) ===== */
-  .overlay-desktop { display: none; }
-
-  /* -------- DESKTOP ONLY (≥900px): full-height, top, no scroll -------- */
-  @media (min-width: 900px){
-    html, body{
-      height: 100vh;
-      overflow: hidden;                 /* no scroll on desktop */
-    }
-
-    /* tighter padding so the image can be larger and higher */
-    body{
-      margin-top: 0;
-      padding: 8px 24px;
-      gap: 10px;
-    }
-
-    /* Larger image, anchored to top, never cropped */
-    .frame{
-      width: min(96vw, 1700px);
-      height: calc(100vh - 16px);
-      margin-top: 0;
-      align-self: center;
-    }
-    .frame img{
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: top center;
-    }
-
-    /* Hide mobile text on desktop */
-    .construction-note,
-    .email-note { display: none; }
-
-    /* Desktop overlay */
-    .overlay-desktop{
-      display: block;
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-    .overlay-desktop .note,
-    .overlay-desktop .email{
-      position: absolute;
-      margin: 0;
-      text-align: left;
-      font-family: "Oooh Baby", cursive;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 10px rgba(0,0,0,.35);
-      opacity: 0;
-      animation: fadeIn 0.8s ease-out forwards;
-    }
-
-    /* Email — left & slightly lower (blue line) */
-    .overlay-desktop .email{
-      left: var(--desk-left-email);
-      top:  var(--desk-top-email);
-      font-size: 1.4em;
-      color: #E1E9F4;
-      animation-delay: 1s;
-      pointer-events: auto;  /* keep link clickable */
-      text-decoration: none;
-    }
-    .overlay-desktop .email:hover{ text-decoration: underline; }
-
-    /* Construction note — right & higher (yellow line) */
-    .overlay-desktop .note{
-      left: var(--desk-left-note);
-      top:  var(--desk-top-note);
-      font-size: 1.3em;
-      color: #FFE9B3;
-      animation-delay: .5s;
-    }
-  }
 </style>
-
+</head>
 <body>
-  <div class="frame">
-    <img src="IMG_2457.jpeg" alt="Red studio reflected in water at night">
 
-    <!-- DESKTOP-ONLY overlay (hidden on mobile) -->
-    <div class="overlay-desktop" aria-hidden="false">
-      <p class="note">web / work site <br> under construction…</p>
+<nav>
+  <a href="#hero" class="nav-logo">Roundtop</a>
+  <ul class="nav-links">
+    <li><a href="residency.html">Residency</a></li>
+    <li><a href="cottage.html">Cottage</a></li>
+    <li><a href="location.html">Location</a></li>
+    <li><a href="mission.html">Fellowship</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
 
-      <a class="email"
-         href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
-         target="_blank" rel="noopener"
-         aria-label="Email hello at roundtop dot studio via Gmail web">
-        hello@roundtop.studio
-      </a>
-    </div>
+<section id="hero">
+  <img class="hero-img" src="IMG_Birds_Eye.jpg" alt="Roundtop compound, Germantown NY">
+  <div class="hero-overlay"></div>
+  <div class="geo-label">
   </div>
+  <div class="hero-content">
+    <h1 class="wordmark">Roundtop</h1>
+    <p class="hero-sub">Designed for the realities of making art.</p>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="arrow"></div>
+  </div>
+</section>
 
-  <!-- MOBILE VERSION (unchanged and still visible on phones) -->
-  <p class="construction-note">web / work site <br> under construction…</p>
+<div class="dark-block reveal">
+  <p class="label" style="opacity:0.45; margin-bottom:0.4rem;">The Roundtop Compound</p>
+  <p class="body-text" style="text-align:center; max-width:58ch; font-size:clamp(1rem,2vw,1.2rem);">
+    Conceived by a sculptor and built from the ground up to support the needs of working artists.
+    Set on 3 acres in Germantown, NY — Roundtop includes an artist residency building and a separate guest cottage for visitors.
+  </p>
+</div>
 
-  <a class="email-note gmail-web"
-     href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
-     target="_blank" rel="noopener"
-     aria-label="Email hello at roundtop dot studio via Gmail web">
-     hello@roundtop.studio
-  </a>
+<section id="compound" class="photo-section reveal">
+  <img src="IMG_Roundtop_Front.jpg" alt="The Roundtop compound">
+  <div class="compound-header">
+    <span class="label">The Roundtop Compound</span>
+  </div>
+  <div class="photo-caption">
+    <p class="label" style="opacity:0.6;">3 acres · Germantown, New York</p>
+  </div>
+</section>
+	
+	<section id="compound" class="photo-section reveal">
+  <img src="IMG_Barn_Exterior.jpg" alt="The Roundtop compound">
+  <div class="compound-header">
+    <span class="label">Artist Residency</span>
+  </div>
+  <div class="photo-caption">
+    <p class="label" style="opacity:0.6;">Germantown, New York</p>
+  </div>
+</section>
 
-  <a class="email-note gmail-mobile"
-     href="mailto:hello@roundtop.studio"
-     aria-label="Email hello at roundtop dot studio via your mail app">
-     hello@roundtop.studio
-  </a>
+
+<footer id="contact">
+  <div class="footer-left">
+    <span class="footer-wordmark">Roundtop</span>
+    <span class="label" style="opacity:0.35;">Germantown, New York</span>
+  </div>
+  <div class="footer-right">
+    <p class="label" style="opacity:0.4; margin-bottom:0.3rem;">Fellowship &amp; partnership inquiries</p>
+    <a class="email-link gmail-web"
+       href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
+       target="_blank" rel="noopener">hello@roundtop.studio</a>
+    <a class="email-link gmail-mobile"
+       href="mailto:hello@roundtop.studio">hello@roundtop.studio</a>
+    <p class="credits" style="margin-top:0.8rem;">© 2026 Roundtop Studios Inc.</p>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

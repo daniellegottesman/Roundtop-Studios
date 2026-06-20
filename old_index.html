@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RTS</title>
+
+<!-- Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
+
+<style>
+  /* ---- Desktop overlay knobs (DESKTOP ONLY) ---- */
+  :root{
+    /* Email (blue line) — left & a touch lower */
+    --desk-left-email: 30%;
+    --desk-top-email:  79%;
+
+    /* Construction note (yellow line) — right & higher than before */
+    --desk-left-note:  36%;
+    --desk-top-note:   64%;
+  }
+
+  /* MOBILE / GLOBAL (unchanged) */
+  body {
+    margin-top: 15%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    background: #000;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    transform: translateX(-15px); /* your chosen global nudge */
+  }
+
+  .frame {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    background: #000;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* for desktop overlay */
+  }
+
+  .frame img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  /* Fade-in */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== MOBILE text — unchanged ===== */
+  .construction-note {
+    font-family: "Oooh Baby", cursive;
+    font-size: 1.1em;
+    color: #FFE9B3;
+    text-align: center;
+    letter-spacing: 0.5px;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out 0.5s forwards;
+  }
+
+  .email-note {
+    font-family: "Oooh Baby", cursive;
+    font-size: 1.2em;
+    color: #E1E9F4;
+    align-self: flex-start;
+    margin-left: 40px;
+    margin-top: 20px;
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out 1s forwards;
+  }
+  .email-note:hover { text-decoration: underline; }
+
+  .gmail-web { display: inline; }
+  .gmail-mobile { display: none; }
+  @media (max-width: 600px) {
+    .gmail-web { display: none; }
+    .gmail-mobile { display: inline; }
+  }
+
+  /* ===== Desktop overlay (hidden by default; shown only on desktop) ===== */
+  .overlay-desktop { display: none; }
+
+  /* -------- DESKTOP ONLY (≥900px): full-height, top, no scroll -------- */
+  @media (min-width: 900px){
+    html, body{
+      height: 100vh;
+      overflow: hidden;                 /* no scroll on desktop */
+    }
+
+    /* tighter padding so the image can be larger and higher */
+    body{
+      margin-top: 0;
+      padding: 8px 24px;
+      gap: 10px;
+    }
+
+    /* Larger image, anchored to top, never cropped */
+    .frame{
+      width: min(96vw, 1700px);
+      height: calc(100vh - 16px);
+      margin-top: 0;
+      align-self: center;
+    }
+    .frame img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: top center;
+    }
+
+    /* Hide mobile text on desktop */
+    .construction-note,
+    .email-note { display: none; }
+
+    /* Desktop overlay */
+    .overlay-desktop{
+      display: block;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .overlay-desktop .note,
+    .overlay-desktop .email{
+      position: absolute;
+      margin: 0;
+      text-align: left;
+      font-family: "Oooh Baby", cursive;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 10px rgba(0,0,0,.35);
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    /* Email — left & slightly lower (blue line) */
+    .overlay-desktop .email{
+      left: var(--desk-left-email);
+      top:  var(--desk-top-email);
+      font-size: 1.4em;
+      color: #E1E9F4;
+      animation-delay: 1s;
+      pointer-events: auto;  /* keep link clickable */
+      text-decoration: none;
+    }
+    .overlay-desktop .email:hover{ text-decoration: underline; }
+
+    /* Construction note — right & higher (yellow line) */
+    .overlay-desktop .note{
+      left: var(--desk-left-note);
+      top:  var(--desk-top-note);
+      font-size: 1.3em;
+      color: #FFE9B3;
+      animation-delay: .5s;
+    }
+  }
+</style>
+
+<body>
+  <div class="frame">
+    <img src="IMG_2457.jpeg" alt="Red studio reflected in water at night">
+
+    <!-- DESKTOP-ONLY overlay (hidden on mobile) -->
+    <div class="overlay-desktop" aria-hidden="false">
+      <p class="note">web / work site <br> under construction…</p>
+
+      <a class="email"
+         href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
+         target="_blank" rel="noopener"
+         aria-label="Email hello at roundtop dot studio via Gmail web">
+        hello@roundtop.studio
+      </a>
+    </div>
+  </div>
+
+  <!-- MOBILE VERSION (unchanged and still visible on phones) -->
+  <p class="construction-note">web / work site <br> under construction…</p>
+
+  <a class="email-note gmail-web"
+     href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
+     target="_blank" rel="noopener"
+     aria-label="Email hello at roundtop dot studio via Gmail web">
+     hello@roundtop.studio
+  </a>
+
+  <a class="email-note gmail-mobile"
+     href="mailto:hello@roundtop.studio"
+     aria-label="Email hello at roundtop dot studio via your mail app">
+     hello@roundtop.studio
+  </a>
+</body>
+</html>
