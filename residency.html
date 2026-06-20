@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ROUNDTOP — Germantown, NY</title>
+<meta name="description" content="An artist residency in Germantown, NY. Conceived by a sculptor and built from the ground up to support the needs of working artists.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+  img { display: block; width: 100%; }
+  a { color: inherit; }
+
+  .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .wordmark {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 9rem);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .body-text {
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    font-weight: 300;
+    line-height: 1.65;
+    max-width: 52ch;
+  }
+  .body-text strong { font-weight: 500; }
+  .page-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    opacity: 0.6;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 2.5rem;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 100%);
+  }
+  nav .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+  }
+  nav .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  nav .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: rgba(255,255,255,0.8);
+    transition: color 0.2s;
+  }
+  nav .nav-links a:hover { color: #fff; }
+
+  @media (max-width: 600px) {
+    nav { padding: 1.2rem 1.4rem; }
+    nav .nav-links { display: none; }
+  }
+
+  #hero {
+    position: relative;
+    height: 100vh;
+    min-height: 500px;
+    overflow: hidden;
+  }
+  #hero .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.72);
+  }
+  #hero .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.1) 0%,
+      rgba(0,0,0,0.15) 60%,
+      rgba(0,0,0,0.55) 100%
+    );
+  }
+  #hero .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+  }
+  #hero .geo-label {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 1.8rem;
+    left: 0; right: 0;
+    padding: 0 2.5rem;
+  }
+  #hero .wordmark {
+    text-shadow: 0 2px 40px rgba(0,0,0,0.4);
+    animation: fadeUp 1.1s ease both;
+  }
+  #hero .hero-sub {
+    margin-top: 1.4rem;
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    opacity: 0.88;
+    animation: fadeUp 1.1s ease 0.25s both;
+  }
+  #hero .scroll-hint {
+    position: absolute;
+    bottom: 2.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.55;
+    animation: fadeUp 1s ease 1.2s both;
+  }
+  #hero .scroll-hint span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  #hero .scroll-hint .arrow {
+    width: 1px;
+    height: 36px;
+    background: #fff;
+    animation: arrowPulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes arrowPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(1.15); }
+  }
+
+  section { position: relative; }
+
+  .photo-section {
+    height: clamp(480px, 70vh, 860px);
+    overflow: hidden;
+  }
+  .photo-section img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.78);
+  }
+  .photo-section .photo-caption {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 2.5rem;
+    right: 2.5rem;
+  }
+
+  .split-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: clamp(440px, 55vh, 700px);
+  }
+  .split-section.reverse { direction: rtl; }
+  .split-section.reverse > * { direction: ltr; }
+
+  .split-img { overflow: hidden; }
+  .split-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.82);
+    transition: transform 0.6s ease;
+  }
+  .split-img:hover img { transform: scale(1.03); }
+
+  .split-text {
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2.5rem, 6vw, 5rem);
+    gap: 1.4rem;
+  }
+
+  .dark-block {
+    background: #0f0f0f;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.2rem;
+  }
+
+  #compound .compound-header {
+    position: absolute;
+    top: 1.6rem;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 2.5rem;
+    z-index: 2;
+  }
+
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .feature-list li {
+    font-size: clamp(0.85rem, 1.6vw, 1rem);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    padding-left: 1.2em;
+    position: relative;
+    line-height: 1.45;
+  }
+  .feature-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    opacity: 0.45;
+  }
+
+  #location {
+    height: clamp(500px, 72vh, 900px);
+    overflow: hidden;
+    position: relative;
+  }
+  #location img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.55);
+  }
+  #location .location-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    gap: 1rem;
+  }
+  #location h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  #location .loc-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+    font-weight: 300;
+    opacity: 0.88;
+    line-height: 1.7;
+  }
+  #location .loc-orgs {
+    margin-top: 1.2rem;
+    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+    opacity: 0.7;
+    font-weight: 300;
+    max-width: 50ch;
+    line-height: 1.65;
+    font-style: italic;
+  }
+  .loc-divider {
+    width: 32px;
+    height: 1px;
+    background: rgba(255,255,255,0.4);
+    margin: 0.5rem auto;
+  }
+
+  #mission { background: #0d0d0d; }
+  .mission-hero {
+    position: relative;
+    height: clamp(520px,100vh,1000px);
+    overflow: hidden;
+  }
+  .mission-hero img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5);
+  }
+  .mission-hero .mission-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    gap: 1.4rem;
+  }
+  .mission-hero .mission-text p {
+    font-size: clamp(1rem, 2.2vw, 1.35rem);
+    font-weight: 300;
+    line-height: 1.65;
+    max-width: 52ch;
+  }
+  .mission-hero .mission-text strong {
+    font-weight: 600;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .fellowship-block {
+    background: #111;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .fellowship-block h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .fellowship-includes { margin-top: 2rem; }
+  .fellowship-includes .label {
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  #founder { position: relative; overflow: hidden; }
+  #founder .founder-img-wrap {
+    height: clamp(480px, 65vh, 860px);
+    position: relative;
+  }
+  #founder .founder-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: brightness(0.6);
+  }
+  #founder .founder-text {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: clamp(2rem, 5vw, 4rem);
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    max-width: 600px;
+  }
+
+  footer {
+    background: #080808;
+    padding: clamp(3.5rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  footer .footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  footer .footer-wordmark {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  footer .footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.6rem;
+    text-align: right;
+  }
+  footer a.email-link {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  footer a.email-link:hover { border-color: #fff; }
+  footer .credits {
+    font-size: 0.75rem;
+    opacity: 0.35;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 768px) {
+    .split-section { grid-template-columns: 1fr; }
+    .split-section.reverse { direction: ltr; }
+    .split-img { height: 280px; }
+    .split-text { padding: 2.5rem 1.5rem; }
+    .fellowship-block { grid-template-columns: 1fr; gap: 2.5rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+    footer .footer-right { align-items: flex-start; text-align: left; }
+    .photo-section .photo-caption { left: 1.4rem; right: 1.4rem; }
+    #hero .geo-label { padding: 0 1.4rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { transition: none; }
+    *, *::before, *::after { animation: none !important; }
+  }
+
+  .gmail-web  { display: inline; }
+  .gmail-mobile { display: none; }
+  @media (max-width: 600px) {
+    .gmail-web  { display: none; }
+    .gmail-mobile { display: inline; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">Roundtop Residency</a>
+  <ul class="nav-links">
+    <li><a href="#residency">Residency</a></li>
+    <li><a href="#cottage">Cottage</a></li>
+    <li><a href="#location">Location</a></li>
+    <li><a href="#mission">Fellowship</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <img class="hero-img" src="IMG_Barn_Exterior.jpg" alt="Roundtop compound, Germantown NY">
+  <div class="geo-label">
+  </div>
+  <div class="hero-content">
+    <h1 class="wordmark"></h1>
+    <p class="hero-sub"></p>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<div class="dark-block reveal">
+  <p class="label" style="opacity:0.45; margin-bottom:0.4rem;">Artist Residency</p>
+  <p class="body-text" style="text-align:center; max-width:58ch; font-size:clamp(1rem,2vw,1.2rem);">
+    Purpose-built, not repurposed. Starting from an empty site made it possible to design around artists' needs. Built for long-term stays, it gives artists the time, space, and infrastructure to develop meaningful work.
+  </p>
+</div>
+	
+
+<section id="residency">
+  <div class="split-section">
+    <div class="split-img reveal">
+      <img src="IMG_Barn_Floorplan.jpg" alt="The artist residency building">
+    </div>
+    <div class="split-text reveal">
+      <p class="label" style="opacity:0.45;">Residency Floorplan</p>
+		<br><br>
+      <ul class="feature-list" style="margin-top:0.4rem;">
+        <li>4 private live/work residences (1,000 sq ft each)</li>
+        <li>Separate workspace and bedroom</li>
+        <li>Sound-insulated workspace</li>
+        <li>Outdoor work area</li>
+        <li>Operable windows for ventilation</li>
+        <li>Designed for long-term stays</li>
+        <li>Couples and partners welcome</li>
+		  <br><br><br>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="split-section reverse" style="min-height:clamp(380px,50vh,620px);">
+  <div class="split-img reveal">
+    <img src="IMG_Barn_Section.jpg" alt="Private workspace — 620 sq ft">
+  </div>
+  <div class="split-text reveal" style="background:#0f0f0f;">
+    <p class="label" style="opacity:0.45;">Residency Section/Elevation</p>
+	 <br><br>
+    <h2 class="section-title">Private Workspace</h2>
+	  <br><br>
+    <p class="body-text">
+      Separate from the private living spaces, Roundtop offers 650 ft<sup>2</sup> soundproofed workspaces with pitched ceilings reaching 13 ft, operable windows for ventilation, skylights, track lighting, and a dedicated work sink. French doors open directly onto the shared outdoor work area.
+    </p>
+	    <br><br><br>
+  </div>
+</section>
+	
+
+<section class="photo-section reveal" style="height:clamp(520px,100vh,1000px);">
+  <img src="IMG_Barn_Interior_1.jpg" alt="Private en-suite bedroom">
+  <div class="photo-caption">
+    <p class="section-title">Private Workspace</p>
+    <p class="label" style="margin-top:0.5rem; opacity:0.6;"></p>
+  </div>
+</section>
+	
+	<section class="photo-section reveal" style="height:clamp(520px,100vh,1000px);">
+  <img src="IMG_Barn_Interior_2.jpg" alt="Private en-suite bedroom">
+  <div class="photo-caption">
+    <p class="section-title">Private Workspace</p>
+    <p class="label" style="margin-top:0.5rem; opacity:0.6;"></p>
+  </div>
+</section>
+	
+	<section class="photo-section reveal" style="height:clamp(520px,120vh,1000px);">
+  <img src="IMG_Barn_Interior_3.jpg" alt="Private en-suite bedroom">
+  <div class="photo-caption">
+    <p class="section-title">Private En-Suite Bedroom</p>
+    <p class="label" style="margin-top:0.5rem; opacity:0.6;"></p>
+  </div>
+</section>
+	
+	<section class="photo-section reveal" style="height:clamp(520px,120vh,1000px);">
+  <img src="IMG_Barn_Interior_4.jpg" alt="Private en-suite bedroom">
+  <div class="photo-caption">
+     <p class="section-title">Private En-Suite Bedroom</p>
+    <p class="label" style="margin-top:0.5rem; opacity:0.6;"></p>
+  </div>
+</section>
+	
+
+<div class="split-section">
+  <div class="split-img reveal">
+    <img src="IMG_Barn_Interior_5.jpg" alt="Shared kitchen and laundry">
+  </div>
+  <div class="split-text reveal">
+    <p class="label" style="opacity:0.45;">Artist Residency</p>
+    <h2 class="section-title">Community<br>without compromise.</h2>
+    <p class="body-text">
+      Artists enjoy the quiet and privacy of a rural setting without sacrificing community or connection. Shared spaces encourage conversation, while private residences comfortably accommodate partners.
+    </p>
+    <ul class="feature-list" style="margin-top:0.4rem;">
+      <li>Deep utility sink for studio work</li>
+      <li>Full kitchen and laundry shared by only two residences</li>
+      <li>Separate WC and shower for comfortable studio visits</li>
+    </ul>
+  </div>
+</div>
+	
+		<section class="photo-section reveal" style="height:clamp(520px,120vh,1000px);">
+  <img src="IMG_Barn_Interior_6.jpg" alt="Private en-suite bedroom">
+  <div class="photo-caption">
+    <p class="section-title">Kitchen and laundry</p>
+    <p class="label" style="margin-top:0.5rem; opacity:0.6;">shared by two residences</p>
+  </div>
+</section>
+
+
+
+
+
+
+<footer id="contact">
+  <div class="footer-left">
+    <span class="footer-wordmark">Roundtop</span>
+    <span class="label" style="opacity:0.35;">Germantown, New York</span>
+  </div>
+  <div class="footer-right">
+    <p class="label" style="opacity:0.4; margin-bottom:0.3rem;">Fellowship &amp; partnership inquiries</p>
+    <a class="email-link gmail-web"
+       href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@roundtop.studio"
+       target="_blank" rel="noopener">hello@roundtop.studio</a>
+    <a class="email-link gmail-mobile"
+       href="mailto:hello@roundtop.studio">hello@roundtop.studio</a>
+    <p class="credits" style="margin-top:0.8rem;">© 2026 Roundtop Studios Inc.</p>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
