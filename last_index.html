@@ -107,57 +107,9 @@
   }
   nav .nav-links a:hover { color: #fff; }
 
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-  }
-  .nav-toggle span {
-    display: block;
-    width: 22px;
-    height: 1px;
-    background: #fff;
-    transition: transform 0.3s, opacity 0.3s;
-  }
-
-  .mobile-nav {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.96);
-    z-index: 99;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2.5rem;
-  }
-  .mobile-nav.open { display: flex; }
-  .mobile-nav a {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: rgba(255,255,255,0.85);
-  }
-  .mobile-nav a:hover { color: #fff; }
-  .mobile-nav-close {
-    position: absolute;
-    top: 1.4rem;
-    right: 1.4rem;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 2rem;
-    cursor: pointer;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 300;
-    line-height: 1;
+  @media (max-width: 600px) {
+    nav { padding: 1.2rem 1.4rem; }
+    nav .nav-links { display: none; }
   }
 
   #hero {
@@ -516,44 +468,16 @@
     letter-spacing: 0.05em;
   }
 
-  /* ── MOBILE ── */
   @media (max-width: 768px) {
-    nav {
-      padding: 1.2rem 1.4rem;
-      background: rgba(0,0,0,0.6);
-    }
-    nav .nav-links { display: none; }
-    .nav-toggle { display: flex; }
-
-    /* Hero */
-    #hero { height: 60vw; min-height: 300px; }
-    #hero .hero-img { object-position: center center; }
-    #hero .geo-label { padding: 0 1.4rem; }
-    #hero .wordmark { font-size: 2rem; }
-    #hero .hero-sub { font-size: 0.75rem; margin-top: 0.5rem; }
-    #hero .scroll-hint { display: none; }
-
-    .photo-section { height: 60vw; min-height: 280px; }
-    section.photo-section[style*="92vh"] { height: 60vw !important; min-height: 280px !important; }
-    section.photo-section[style*="100vh"] { height: 60vw !important; min-height: 280px !important; }
-    .photo-section .photo-caption { left: 1.4rem; right: 1.4rem; bottom: 1.4rem; }
-
     .split-section { grid-template-columns: 1fr; }
     .split-section.reverse { direction: ltr; }
-    .split-img { height: 60vw; min-height: 260px; }
-    .split-text { padding: 2rem 1.4rem; }
-
-    .dark-block { padding: 3rem 1.4rem; }
-    .body-text { font-size: 1rem; }
-
-    .fellowship-block { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.4rem; }
-
-    footer { flex-direction: column; align-items: flex-start; padding: 3rem 1.4rem; }
+    .split-img { height: 280px; }
+    .split-text { padding: 2.5rem 1.5rem; }
+    .fellowship-block { grid-template-columns: 1fr; gap: 2.5rem; }
+    footer { flex-direction: column; align-items: flex-start; }
     footer .footer-right { align-items: flex-start; text-align: left; }
-
-    .feature-list li { font-size: 0.95rem; }
-    #location .loc-orgs { font-size: 0.85rem; }
-    #location .loc-details { font-size: 1rem; }
+    .photo-section .photo-caption { left: 1.4rem; right: 1.4rem; }
+    #hero .geo-label { padding: 0 1.4rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -571,15 +495,6 @@
 </head>
 <body>
 
-<div class="mobile-nav" id="mobileNav">
-  <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
-  <a href="residency.html" onclick="closeMobileNav()">Residency</a>
-  <a href="cottage.html" onclick="closeMobileNav()">Cottage</a>
-  <a href="location.html" onclick="closeMobileNav()">Location</a>
-  <a href="mission.html" onclick="closeMobileNav()">Fellowship</a>
-  <a href="contact.html" onclick="closeMobileNav()">Contact</a>
-</div>
-
 <nav>
   <a href="#hero" class="nav-logo">Roundtop</a>
   <ul class="nav-links">
@@ -589,17 +504,13 @@
     <li><a href="mission.html">Fellowship</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
-  <button class="nav-toggle" id="navToggle" aria-label="Open menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
 </nav>
 
 <section id="hero">
   <img class="hero-img" src="IMG_Birds_Eye.jpg" alt="Roundtop compound, Germantown NY">
   <div class="hero-overlay"></div>
-  <div class="geo-label"></div>
+  <div class="geo-label">
+  </div>
   <div class="hero-content">
     <h1 class="wordmark">Roundtop</h1>
     <p class="hero-sub">Designed for the realities of making art.</p>
@@ -627,8 +538,8 @@
     <p class="label" style="opacity:0.6;">3 acres · Germantown, New York</p>
   </div>
 </section>
-
-<section class="photo-section reveal" style="height:clamp(520px,92vh,1000px);">
+	
+	<section id="compound" class="photo-section reveal" style="height:clamp(520px,92vh,1000px);">
   <img src="IMG_Barn_Exterior.jpg" alt="The Roundtop compound">
   <div class="compound-header">
     <span class="label">Artist Residency</span>
@@ -637,8 +548,8 @@
     <p class="label" style="opacity:0.6;">Germantown, New York</p>
   </div>
 </section>
-
-<section class="photo-section reveal" style="height:clamp(520px,92vh,1000px);">
+	
+		<section id="compound" class="photo-section reveal" style="height:clamp(520px,92vh,1000px);">
   <img src="IMG_Cottage_Exterior.jpg" alt="The Roundtop compound">
   <div class="compound-header">
     <span class="label">Guest Cottage</span>
@@ -647,6 +558,8 @@
     <p class="label" style="opacity:0.6;">Germantown, New York</p>
   </div>
 </section>
+
+
 
 <footer id="contact">
   <div class="footer-left">
@@ -675,22 +588,6 @@
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
   revealEls.forEach(el => observer.observe(el));
-
-  const navToggle = document.getElementById('navToggle');
-  const mobileNav = document.getElementById('mobileNav');
-  const mobileNavClose = document.getElementById('mobileNavClose');
-
-  function closeMobileNav() {
-    mobileNav.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  navToggle.addEventListener('click', () => {
-    mobileNav.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  });
-
-  mobileNavClose.addEventListener('click', closeMobileNav);
 </script>
 </body>
 </html>
